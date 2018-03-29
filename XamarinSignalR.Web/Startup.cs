@@ -98,7 +98,7 @@ namespace XamarinSignalR.Web
             services.AddMvc();
 
             // Add SignalR
-            services.AddSignalRCore();
+            services.AddSignalR();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -128,7 +128,7 @@ namespace XamarinSignalR.Web
             // User SignalR
             app.UseSignalR(routes =>
             {
-                routes.MapHub<ChatHub>("/chat");
+                routes.MapHub<ChatHub>("/chathub");
             });
 
             app.UseMvc(routes =>
