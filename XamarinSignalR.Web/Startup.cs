@@ -11,6 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using XamarinSignalR.Web.Data;
 using XamarinSignalR.Web.Filters;
+using XamarinSignalR.Web.Hubs;
 using XamarinSignalR.Web.Models;
 using XamarinSignalR.Web.Services;
 
@@ -95,6 +96,9 @@ namespace XamarinSignalR.Web
             });
 
             services.AddMvc();
+
+            // Add SignalR
+            services.AddSignalRCore();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -120,6 +124,12 @@ namespace XamarinSignalR.Web
             app.UseStaticFiles();
 
             app.UseAuthentication();
+
+            // User SignalR
+            app.UseSignalR(routes =>
+            {
+                routes.MapHub<ChatHub>("/chat");
+            });
 
             app.UseMvc(routes =>
             {
