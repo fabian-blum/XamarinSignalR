@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authentication;
+﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
+using System;
+using System.Security.Claims;
+using System.Threading.Tasks;
 using XamarinSignalR.Web.Models;
 using XamarinSignalR.Web.Models.AccountViewModels;
 using XamarinSignalR.Web.Services;
@@ -17,6 +13,7 @@ using XamarinSignalR.Web.Services;
 namespace XamarinSignalR.Web.Controllers
 {
     [Authorize]
+    [ApiExplorerSettings(IgnoreApi = true)]
     [Route("[controller]/[action]")]
     public class AccountController : Controller
     {
