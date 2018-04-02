@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 using System;
@@ -9,12 +10,10 @@ using System.Threading.Tasks;
 
 namespace XamarinSignalR.Web.Hubs
 {
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    [Authorize(AuthenticationSchemes = "Identity.Application" + "," + CookieAuthenticationDefaults.AuthenticationScheme + "," + JwtBearerDefaults.AuthenticationScheme)]
     public class ChatHub : Hub
     {
-
         private static readonly Dictionary<string, string> ClientsDictionary = new Dictionary<string, string>();
-
 
         public Task SendMessage(string user, string message)
         {
