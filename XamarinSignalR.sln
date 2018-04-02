@@ -9,7 +9,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XamarinSignalR.Android", "X
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XamarinSignalR.UWP", "XamarinSignalR\XamarinSignalR.UWP\XamarinSignalR.UWP.csproj", "{634771A5-6BD2-4C82-952C-796CFFE5B4F4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XamarinSignalR.Web", "XamarinSignalR.Web\XamarinSignalR.Web.csproj", "{B91B1B44-0DC9-43AA-A404-377F72AC3D99}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XamarinSignalR.Web", "XamarinSignalR.Web\XamarinSignalR.Web.csproj", "{B91B1B44-0DC9-43AA-A404-377F72AC3D99}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApp", "ConsoleApp\ConsoleApp.csproj", "{EDE2C71D-D198-4234-81C1-AD81F84B10AF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -99,6 +101,22 @@ Global
 		{B91B1B44-0DC9-43AA-A404-377F72AC3D99}.Release|x64.Build.0 = Release|Any CPU
 		{B91B1B44-0DC9-43AA-A404-377F72AC3D99}.Release|x86.ActiveCfg = Release|Any CPU
 		{B91B1B44-0DC9-43AA-A404-377F72AC3D99}.Release|x86.Build.0 = Release|Any CPU
+		{EDE2C71D-D198-4234-81C1-AD81F84B10AF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EDE2C71D-D198-4234-81C1-AD81F84B10AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EDE2C71D-D198-4234-81C1-AD81F84B10AF}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{EDE2C71D-D198-4234-81C1-AD81F84B10AF}.Debug|ARM.Build.0 = Debug|Any CPU
+		{EDE2C71D-D198-4234-81C1-AD81F84B10AF}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{EDE2C71D-D198-4234-81C1-AD81F84B10AF}.Debug|x64.Build.0 = Debug|Any CPU
+		{EDE2C71D-D198-4234-81C1-AD81F84B10AF}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{EDE2C71D-D198-4234-81C1-AD81F84B10AF}.Debug|x86.Build.0 = Debug|Any CPU
+		{EDE2C71D-D198-4234-81C1-AD81F84B10AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EDE2C71D-D198-4234-81C1-AD81F84B10AF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EDE2C71D-D198-4234-81C1-AD81F84B10AF}.Release|ARM.ActiveCfg = Release|Any CPU
+		{EDE2C71D-D198-4234-81C1-AD81F84B10AF}.Release|ARM.Build.0 = Release|Any CPU
+		{EDE2C71D-D198-4234-81C1-AD81F84B10AF}.Release|x64.ActiveCfg = Release|Any CPU
+		{EDE2C71D-D198-4234-81C1-AD81F84B10AF}.Release|x64.Build.0 = Release|Any CPU
+		{EDE2C71D-D198-4234-81C1-AD81F84B10AF}.Release|x86.ActiveCfg = Release|Any CPU
+		{EDE2C71D-D198-4234-81C1-AD81F84B10AF}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

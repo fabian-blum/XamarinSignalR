@@ -1,12 +1,19 @@
 ﻿using Microsoft.AspNetCore.SignalR;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace XamarinSignalR.Web.Hubs
 {
+
     public class ChatHub : Hub
     {
+
+        private static Dictionary<string, string> _clients = new Dictionary<string, string>();
+        private static int i;
+
         public Task SendMessage(string user, string message)
         {
             string timestamp = DateTime.Now.ToShortTimeString();
@@ -15,10 +22,24 @@ namespace XamarinSignalR.Web.Hubs
             Debug.WriteLine(Context.Connection.ConnectionId);
             Debug.WriteLine(Context.Connection.UserIdentifier);
 
+            var x = _clients.FirstOrDefault();
+            var console = _clients.Where(y => y.Value == "console");
+            List<string> consoleConnections = new List<string>();
+            foreach (var keyValuePair in console)
+            {
+                consoleConnections.Add(keyValuePair.Key);
+            }
 
+            consoleConnections.Add(x.Key);
 
-
-            return Clients.User("9bed5602-d7c4-4ec6-a0f0-165e6834d3da").SendAsync("ReceiveMessage", timestamp, user, message);
+            return Clients.Clients(consoleConnections).SendAsync("ReceiveMessage", timestamp, user, message); ;
         }
+
+        public void Register(string user)
+        {
+            _clients.Add(Context.ConnectionId, user);
+            Debug.WriteLine(Context.ConnectionId + " // " + user);
+        }
+
     }
 }

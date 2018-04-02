@@ -23,4 +23,4 @@ function showErr(msg) {
   document.getElementById('messages').appendChild(listItem);
 }
 
-connection.start().catch(err => showErr(err));
+connection.start().then(() => connection.invoke('Register', "web").catch(err => showErr(err)));
