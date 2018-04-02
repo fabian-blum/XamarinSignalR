@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.SignalR;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.SignalR;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -11,33 +13,30 @@ namespace XamarinSignalR.Web.Hubs
     public class ChatHub : Hub
     {
 
-        private static Dictionary<string, string> _clients = new Dictionary<string, string>();
-        private static int i;
+        private static readonly Dictionary<string, string> ClientsDictionary = new Dictionary<string, string>();
 
+        //[Authorize]
         public Task SendMessage(string user, string message)
         {
-            string timestamp = DateTime.Now.ToShortTimeString();
+            var timestamp = DateTime.Now.ToShortTimeString();
 
             Debug.WriteLine(Context.ConnectionId);
             Debug.WriteLine(Context.Connection.ConnectionId);
             Debug.WriteLine(Context.Connection.UserIdentifier);
 
-            var x = _clients.FirstOrDefault();
-            var console = _clients.Where(y => y.Value == "console");
-            List<string> consoleConnections = new List<string>();
-            foreach (var keyValuePair in console)
-            {
-                consoleConnections.Add(keyValuePair.Key);
-            }
+            var x = ClientsDictionary.FirstOrDefault();
+            var console = ClientsDictionary.Where(y => y.Value == "console");
+            var consoleConnections = console.Select(keyValuePair => keyValuePair.Key).ToList();
 
             consoleConnections.Add(x.Key);
 
             return Clients.Clients(consoleConnections).SendAsync("ReceiveMessage", timestamp, user, message); ;
         }
 
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public void Register(string user)
         {
-            _clients.Add(Context.ConnectionId, user);
+            ClientsDictionary.Add(Context.ConnectionId, user);
             Debug.WriteLine(Context.ConnectionId + " // " + user);
         }
 
