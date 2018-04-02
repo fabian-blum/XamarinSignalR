@@ -10,6 +10,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Net;
 using System.Security.Claims;
+using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
 using XamarinSignalR.Web.Models;
@@ -46,7 +47,7 @@ namespace XamarinSignalR.Web.Controllers
         private ILogger<ApiAccountController> Logger { get; }
         private IEmailSender EmailSender { get; }
 
-        // POST api/ApiAccount/Token
+        // POST api/ApiAccount/token
         [AllowAnonymous]
         [HttpPost("token")]
         public async Task<IActionResult> Token([FromBody] LoginViewModel model)
@@ -86,6 +87,42 @@ namespace XamarinSignalR.Web.Controllers
                     });
                 }
                 return Unauthorized();
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError($"error while creating token: {ex}");
+                return StatusCode((int)HttpStatusCode.InternalServerError, "error while creating token");
+            }
+        }
+
+        // POST api/ApiAccount/token
+        [AllowAnonymous]
+        [HttpPost("tokenWithoutLogin")]
+        public IActionResult TokenWithoutLogin([FromBody] string id)
+        {
+            try
+            {
+                var tokenHandler = new JwtSecurityTokenHandler();
+
+                var identity = new ClaimsIdentity(new GenericIdentity(id, "jwt"));
+
+                var symmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JwtSecurityToken:Key"]));
+                var signingCredentials = new SigningCredentials(symmetricSecurityKey, SecurityAlgorithms.HmacSha256);
+
+                SecurityToken token = tokenHandler.CreateJwtSecurityToken(new SecurityTokenDescriptor
+                {
+                    Audience = Configuration["JwtSecurityToken:Audience"],
+                    Issuer = Configuration["JwtSecurityToken:Issuer"],
+                    SigningCredentials = signingCredentials,
+                    Expires = DateTime.UtcNow.AddDays(13),
+                    Subject = identity
+                });
+
+                return Ok(new
+                {
+                    access_token = tokenHandler.WriteToken(token),
+                    expiration = token.ValidTo
+                });
             }
             catch (Exception ex)
             {
