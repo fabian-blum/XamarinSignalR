@@ -9,13 +9,13 @@ using System.Threading.Tasks;
 
 namespace XamarinSignalR.Web.Hubs
 {
-
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class ChatHub : Hub
     {
 
         private static readonly Dictionary<string, string> ClientsDictionary = new Dictionary<string, string>();
 
-        //[Authorize]
+
         public Task SendMessage(string user, string message)
         {
             var timestamp = DateTime.Now.ToShortTimeString();
@@ -33,7 +33,6 @@ namespace XamarinSignalR.Web.Hubs
             return Clients.Clients(consoleConnections).SendAsync("ReceiveMessage", timestamp, user, message); ;
         }
 
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public void Register(string user)
         {
             ClientsDictionary.Add(Context.ConnectionId, user);
