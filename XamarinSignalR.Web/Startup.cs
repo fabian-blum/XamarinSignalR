@@ -66,8 +66,9 @@ namespace XamarinSignalR.Web
             });
 
             // Bearer Token
-            services.AddAuthentication()
-                .AddCookie(cfg => cfg.SlidingExpiration = true)
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme,
+                    cfg => cfg.SlidingExpiration = true)
                 .AddJwtBearer(cfg =>
                 {
                     cfg.RequireHttpsMetadata = false;

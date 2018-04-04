@@ -1,0 +1,12 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+
+<div class="row">
+    <div class="col-md-12">
+        <h1>@ViewData["Message"]</h1>
+        <h2>Hi @User.Identity.Name, you're in the club.</h2>
+        <h2>Hi @User.Claims.FirstOrDefault(x => x.Type == "FullName")?.Value, you're in the club.</h2>
+    </div>
+</div>

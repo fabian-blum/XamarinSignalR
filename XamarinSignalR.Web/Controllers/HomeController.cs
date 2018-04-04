@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Diagnostics;
 using XamarinSignalR.Web.Models;
 
 namespace XamarinSignalR.Web.Controllers
@@ -15,6 +14,7 @@ namespace XamarinSignalR.Web.Controllers
             return View();
         }
 
+        [Authorize(AuthenticationSchemes = "Identity.Application" + "," + CookieAuthenticationDefaults.AuthenticationScheme + "," + JwtBearerDefaults.AuthenticationScheme)]
         public IActionResult About()
         {
             ViewData["Message"] = "Your application description page.";

@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -6,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using System;
+using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Net;
@@ -123,6 +126,38 @@ namespace XamarinSignalR.Web.Controllers
                     access_token = tokenHandler.WriteToken(token),
                     expiration = token.ValidTo
                 });
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError($"error while creating token: {ex}");
+                return StatusCode((int)HttpStatusCode.InternalServerError, "error while creating token");
+            }
+        }
+
+        // GET api/Account/CookieLogin
+        [AllowAnonymous]
+        [HttpGet("CookieLogin")]
+        public async Task<IActionResult> CookieLogin()
+        {
+            try
+            {
+                var claims = new List<Claim>
+                {
+                    new Claim(ClaimTypes.Name, "jon", ClaimValueTypes.String),
+                    new Claim("FullName", "baalalalal")
+                };
+                var userIdentity = new ClaimsIdentity(claims, "SecureLogin");
+                var userPrincipal = new ClaimsPrincipal(userIdentity);
+
+                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
+                    userPrincipal,
+                    new AuthenticationProperties
+                    {
+                        ExpiresUtc = DateTime.UtcNow.AddMinutes(20),
+                        IsPersistent = false,
+                        AllowRefresh = false
+                    });
+                return RedirectToAction("Index", "Home");
             }
             catch (Exception ex)
             {
