@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -65,10 +66,19 @@ namespace XamarinSignalR.Web
                 };
             });
 
-            // Bearer Token
-            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-                .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme,
-                    cfg => cfg.SlidingExpiration = true)
+            // Cookie + Bearer Token
+            services.AddAuthentication(options =>
+                {
+                    options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                    options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                    options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                })
+                .AddCookie(cfg =>
+                {
+                    cfg.SlidingExpiration = true;
+                    cfg.LoginPath = new PathString("/Account/Login");
+                    cfg.AccessDeniedPath = new PathString("/Account/AccessDenied");
+                })
                 .AddJwtBearer(cfg =>
                 {
                     cfg.RequireHttpsMetadata = false;
